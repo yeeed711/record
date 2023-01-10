@@ -16,7 +16,7 @@ import { ReactComponent as MAXIMISE_FRAME } from '@assets/icons/maximise_frame.s
 import { ReactComponent as MOON } from '@assets/icons/moon.svg'
 import { ReactComponent as SEARCH } from '@assets/icons/search.svg'
 import { ReactComponent as SUN } from '@assets/icons/sun.svg'
-import { ReactComponent as THUMBS } from '@assets/icons/thumbs.svg'
+import { ReactComponent as THUMBS_UP } from '@assets/icons/thumbs_up.svg'
 
 export const ICON = {
   AVATAR,
@@ -37,5 +37,5 @@ export const ICON = {
   MOON,
   SEARCH,
   SUN,
-  THUMBS
+  THUMBS_UP
 }

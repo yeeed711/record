@@ -1,11 +1,7 @@
 import 'styled-components'
+import type { ColorsTypes } from './theme'
 declare module 'styled-components' {
   export interface DefaultTheme {
-    color: {
-      text: {
-        lv1: string
-        lv2: string
-      }
-    }
+    colors: ColorsTypes
   }
 }
