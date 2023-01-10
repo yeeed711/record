@@ -13,6 +13,7 @@ import { ReactComponent as INFO } from '@assets/icons/info.svg'
 import { ReactComponent as LINK } from '@assets/icons/link.svg'
 import { ReactComponent as LOGO } from '@assets/icons/logo_record.svg'
 import { ReactComponent as MAXIMISE_FRAME } from '@assets/icons/maximise_frame.svg'
+import { ReactComponent as MENU } from '@assets/icons/menu.svg'
 import { ReactComponent as MOON } from '@assets/icons/moon.svg'
 import { ReactComponent as SEARCH } from '@assets/icons/search.svg'
 import { ReactComponent as SUN } from '@assets/icons/sun.svg'
@@ -34,6 +35,7 @@ export const ICON = {
   LINK,
   LOGO,
   MAXIMISE_FRAME,
+  MENU,
   MOON,
   SEARCH,
   SUN,
