@@ -18,7 +18,9 @@ const LinkStyled = styled(Link)`
   /* background-color: #eee; */
   padding: 5px 10px;
   border-radius: 10px;
+  transition: all 0.3s;
   &:hover {
     background-color: #eee;
+    color: ${props => props.theme.colors.text_03};
   }
 `

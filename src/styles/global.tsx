@@ -6,7 +6,8 @@ export const globalStyle = css`
   }
 
   body {
-    font-family: 'IBM Plex Sans_Regular', sans-serif;
+    /* font-family: 'IBM Plex Sans', sans-serif; */
+    line-height: 1.1;
   }
 
   a {

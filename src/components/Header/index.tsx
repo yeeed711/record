@@ -9,21 +9,17 @@ import SearchBar from './SearchBar'
 
 const Header = (): ReactElement => {
   return (
-    <>
-      <HeaderContainer>
-        <HeaderWrapper>
-          <HeaderLeft className="mobile-left">
-            <ICON.LOGO />
-            <NavBar />
-          </HeaderLeft>
-          <HeaderRight className="mobile-right">
-            <SearchBar />
-            <SignIn>Sign in</SignIn>
-            <MobileBtn />
-          </HeaderRight>
-        </HeaderWrapper>
-      </HeaderContainer>
-    </>
+    <HeaderWrapper>
+      <HeaderLeft className="mobile-left">
+        <ICON.LOGO />
+        <NavBar />
+      </HeaderLeft>
+      <HeaderRight className="mobile-right">
+        <SearchBar />
+        <SignIn>Sign in</SignIn>
+        <MobileBtn />
+      </HeaderRight>
+    </HeaderWrapper>
   )
 }
 
@@ -33,13 +29,7 @@ const FlexAlignCenter = css`
   display: flex;
   align-items: center;
 `
-const HeaderContainer = styled.div`
-  box-shadow: 0 3px 6px 0 rgb(0 0 0 / 3%);
-  padding: 5px 15px;
-  position: sticky;
-  top: 0;
-  background-color: ${props => props.theme.colors.background_01};
-`
+
 const HeaderWrapper = styled.div`
   ${FlexAlignCenter}
   height: 46px;
@@ -78,6 +68,10 @@ const HeaderRight = styled.div`
 const SignIn = styled.button`
   padding: 7px 15px;
   border-radius: 30px;
-  border: 1px solid black;
+  border: 1px solid ${props => props.theme.colors.border_02};
+  color: ${props => props.theme.colors.text_03};
   font-size: 14px;
+  &:hover {
+    background-color: ${props => props.theme.colors.background_04};
+  }
 `

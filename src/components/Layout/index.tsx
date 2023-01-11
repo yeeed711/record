@@ -27,7 +27,14 @@ const Container = styled.div`
   flex-direction: column;
   background-color: ${props => props.theme.colors.background_02};
 `
-const Header = styled.div``
+const Header = styled.div`
+  box-shadow: 0 3px 6px 0 rgb(0 0 0 / 3%);
+  padding: 5px 15px;
+  position: sticky;
+  top: 0;
+  background-color: ${props => props.theme.colors.background_01};
+  z-index: 10;
+`
 const Content = styled.div`
   flex: 1;
 `
