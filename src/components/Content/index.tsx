@@ -1,13 +1,10 @@
-import { loginAxios } from '@api'
+import LoginForm from '@components/forms/LoginForm' // TODO: 폴더구조 정리
+import { mobile } from '@styles'
+import PostCard from '@components/cards/PostCard'
 import type { ReactElement } from 'react'
 import styled from 'styled-components'
-import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 
-interface IForm {
-  email: string
-  password: string
-}
 const Content = (): ReactElement => {
   const [isSignUpModalOpened, setIsSignUpModalOpened] = useState(false)
 
@@ -15,66 +12,20 @@ const Content = (): ReactElement => {
     setIsSignUpModalOpened(prev => !prev)
   }
 
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors, isValid }
-  } = useForm<IForm>({ mode: 'onChange' })
-
-  const onSubmit = (userInfo: IForm): void => {
-    if (isValid) {
-      //로그인 로직
-      //TODO: 로컬스토리지 저장
-      loginAxios(userInfo)
-    }
-  }
-
   return (
     <div>
       <Banner>
-        <div>무엇이든 기록해보세요</div>
+        <div>생각하고, 기록하고, 성장하세요.</div>
         <BannerBtn onClick={handleSignUpModalOpen}>시작하기</BannerBtn>
       </Banner>
       <div>안녕하세요 반갑습니다</div>
-      <div>포스트</div>
-      <div>포스트</div>
-      <div>포스트</div>
-      <div>포스트</div>
-      <div>포스트</div>
-      <div>포스트</div>
+      <div>카테고리</div>
+      <Cards>
+        <PostCard />
+      </Cards>
+
       {isSignUpModalOpened && (
-        <div>
-          로그인모달임
-          <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-            <div>로그인입니다</div>
-            <label htmlFor="email"></label>
-            <input
-              placeholder="이메일을 입력해주세요"
-              {...register('email', {
-                pattern: {
-                  message: '*이메일 형식이 올바르지 않습니다.',
-                  value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
-                },
-                required: '*이메일이 입력되지 않았습니다.'
-              })}
-            />
-            <span>{errors.email?.message}</span>
-            <label htmlFor="pw"></label>
-            <input
-              placeholder="비밀번호를 입력해주세요"
-              {...register('password', {
-                minLength: {
-                  message: '*비밀번호는 6자 이상이어야 합니다.',
-                  value: 6
-                },
-                required: true
-              })}
-            />
-            <span>{errors.password?.message}</span>
-            <button disabled={!isValid}>로그인</button>
-          </form>
-        </div>
+        <LoginForm setIsSignUpModalOpened={setIsSignUpModalOpened} />
       )}
     </div>
   )
@@ -100,7 +51,25 @@ const Banner = styled.div`
 
 const BannerBtn = styled.button`
   padding: 8px 20px;
-  color: inherit;
-  background-color: lightblue;
+  color: ${props => props.theme.colors.text_03};
+  background-color: ${props => props.theme.colors.background_04};
   border-radius: 18px;
+  border: 2px solid ${props => props.theme.colors.primary};
+  font-size: 14px;
+`
+const Cards = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 25px;
+  padding: 30px 10px;
+  max-width: 1060px;
+  width: 100%;
+  margin: 0 auto;
+  ${mobile} {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  //TODO: 미디어쿼리 분기점 추가하기
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
 `
