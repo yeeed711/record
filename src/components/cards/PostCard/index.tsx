@@ -1,52 +1,62 @@
 import { ICON } from '@constants'
+import PostDetailCard from '../PostDetailCard'
+import type { PostType } from '@types'
 import type { ReactElement } from 'react'
 import styled from 'styled-components'
+import { useState } from 'react'
 
-const PostCard = (): ReactElement => {
+type PropsType = { post: PostType }
+
+const PostCard = ({ post }: PropsType): ReactElement => {
+  const [isPostModalOpened, setIsPostModalOpened] = useState(false)
+
+  const handlePostModalOpen = (): void => {
+    setIsPostModalOpened(prev => !prev)
+  }
+
   return (
-    <Card>
-      <Wrapper>
-        <ThumbnailWrapper>
-          <a href="#">
-            <ThumbnailImg
-              src="./assets/images/banner.png"
-              alt="이미지썸넬공간"
-            />
-          </a>
-        </ThumbnailWrapper>
-        <ContentsWrapper>
-          <a href="#">
-            <ContentsTitle>
-              안녕하세요 만약 제목이 엄청나게 딜어진다면 어떻게 되는 걸까요?
+    <>
+      <Card onClick={handlePostModalOpen}>
+        <Wrapper>
+          {post.image === '' ? null : (
+            <ThumbnailWrapper>
+              <a href="#">
+                <ThumbnailImg src={post.image} alt="이미지썸네일" />
+              </a>
+            </ThumbnailWrapper>
+          )}
+          <ContentsWrapper>
+            <a href="#">
+              {/* <ContentsTitle>
+              안녕하세요 만약 제목이 엄청나게 길어진다면 어떻게 되는 걸까요?
               궁금하지않나요?
-            </ContentsTitle>
-            <ContentsDes>
-              저는 어제 영화를 봤습니다. 바로 카사블랑카인데요. 카사노바라는
-              단어와 유사하여 비슷한 의미인 줄 알았는데, 알고보니 모로코의 지역
-              이름이었습니다. 잘못 생각하고 있었단걸 알고 놀랐습니다. 영화는
-              1943년 영화임에도 불구하고 세련된 느낌이 묻어나오더라구요. 재미가
-              있었습니다
-            </ContentsDes>
-          </a>
-        </ContentsWrapper>
-        <ProfileContainer>
-          <ProfileLeft>
-            <ProfileImg src="./assets/images/banner.png" alt="프로필사진" />
-            <ProfileName>김예지</ProfileName>
-          </ProfileLeft>
-          <ProfileRight>
-            <LikedWrapper>
-              <ICON.THUMBS_UP />
-              <span>7</span>
-            </LikedWrapper>
-            <ComentWrapper>
-              <ICON.CHAT />
-              <span>11</span>
-            </ComentWrapper>
-          </ProfileRight>
-        </ProfileContainer>
-      </Wrapper>
-    </Card>
+            </ContentsTitle> */}
+              <ContentsDes>{post.content}</ContentsDes>
+            </a>
+          </ContentsWrapper>
+          <ProfileContainer>
+            <ProfileLeft>
+              <ProfileImg src={post.author.image} alt="프로필사진" />
+              <ProfileName>{post.author.username}</ProfileName>
+            </ProfileLeft>
+            <ProfileRight>
+              <LikedWrapper>
+                <ICON.THUMBS_UP />
+                <span>{post.heartCount}</span>
+              </LikedWrapper>
+              <CommentWrapper>
+                <ICON.CHAT />
+                <span>{post.commentCount}</span>
+              </CommentWrapper>
+            </ProfileRight>
+          </ProfileContainer>
+        </Wrapper>
+      </Card>
+
+      {isPostModalOpened && (
+        <PostDetailCard setIsPostModalOpened={setIsPostModalOpened} />
+      )}
+    </>
   )
 }
 
@@ -63,7 +73,12 @@ const Card = styled.li`
   height: 100%;
   overflow: hidden;
 `
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+`
 
 const ThumbnailWrapper = styled.div``
 const ThumbnailImg = styled.img`
@@ -123,11 +138,10 @@ const ProfileRight = styled.div`
 `
 const LikedWrapper = styled.div`
   display: flex;
-  align-items: flex-end;
   gap: 2px;
   font-size: 14px;
   span {
-    text-align: end;
+    margin-top: 2px;
   }
 `
-const ComentWrapper = styled(LikedWrapper)``
+const CommentWrapper = styled(LikedWrapper)``
