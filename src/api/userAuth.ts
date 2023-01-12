@@ -1,24 +1,24 @@
-import axios from 'axios'
+import { defaultInstance } from './utils'
+import { PATH } from '@constants'
 
-interface IForm {
+type LoginFormType = {
   email: string
   password: string
 }
 
-// TODO: 상수분리
-const API_KEY = process.env.REACT_APP_API_BASE_URL
-
-export const loginAxios = async (userInfo: IForm): Promise<any> => {
+export const loginResquester = async (
+  userInfo: LoginFormType
+): Promise<any> => {
   try {
-    const response = await axios.post(`${API_KEY}/user/login`, {
+    const response = await defaultInstance.post(PATH.LOGIN, {
       user: {
         email: userInfo.email,
         password: userInfo.password
       }
     })
-    console.log('로그인성공', response.data)
+    console.log('로그인성공')
     return response.data
   } catch (error) {
-    return '?'
+    return '로그인에 실패하였습니다.'
   }
 }

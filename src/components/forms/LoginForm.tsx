@@ -1,36 +1,36 @@
 import Button from '@components/base/Button'
 import { ICON } from '@constants'
 import InputBox from '@components/base/Input'
-import { loginAxios } from '@api'
+import { loginResquester } from '@api'
 import type { ReactElement } from 'react'
+import { setItem } from '@utils'
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
 
 //type
-interface IForm {
+
+type FormType = {
   email: string
   password: string
 }
 
-interface ILoginFormProps {
+type LoginFormPropsType = {
   setIsSignUpModalOpened: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const LoginForm = ({
   setIsSignUpModalOpened
-}: ILoginFormProps): ReactElement => {
+}: LoginFormPropsType): ReactElement => {
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors, isValid }
-  } = useForm<IForm>({ mode: 'onChange' })
+  } = useForm<FormType>({ mode: 'onChange' })
 
-  const onSubmit = (userInfo: IForm): void => {
+  const onSubmit = async (userInfo: FormType): Promise<void> => {
     if (isValid) {
-      //로그인 로직
-      //TODO: 로컬스토리지 저장
-      loginAxios(userInfo)
+      const { user } = await loginResquester(userInfo)
+      setItem('userInfo', user)
     }
   }
 
