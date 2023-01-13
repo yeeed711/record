@@ -1,6 +1,6 @@
 import { ICON } from '@constants'
 import PostDetailCard from '../PostDetailCard'
-import type { PostType } from '@types'
+import type { PostType } from '@models'
 import type { ReactElement } from 'react'
 import styled from 'styled-components'
 import { useState } from 'react'
@@ -72,6 +72,7 @@ const Card = styled.li`
   }
   height: 100%;
   overflow: hidden;
+  background-color: ${props => props.theme.colors.background_01};
 `
 const Wrapper = styled.div`
   display: flex;

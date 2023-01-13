@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { mobile } from '@styles'
-import PostCard from '@components/cards/PostCard'
-import type { PostsType } from '@types'
+import { PostCard } from '@components'
+import type { PostsType } from '@models'
 import type { ReactElement } from 'react'
 import styled from 'styled-components'
-import { userPostResquester } from '@api/post'
+import { userPostResquester } from '@api'
 
 const PostCards = (): ReactElement => {
   const [userPosts, setUserPosts] = useState<PostsType>()

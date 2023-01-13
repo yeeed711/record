@@ -1,7 +1,7 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { FontCSS, globalStyle, lightTheme, ResetCSS } from '@styles'
 import type { ReactElement } from 'react'
-import Router from './routes'
+import Router from './routes/Router'
 
 const GlobalStyle = createGlobalStyle`
  ${ResetCSS}
@@ -11,12 +11,10 @@ const GlobalStyle = createGlobalStyle`
 
 const App = (): ReactElement => {
   return (
-    <>
-      <ThemeProvider theme={lightTheme}>
-        <GlobalStyle />
-        <Router />
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={lightTheme}>
+      <GlobalStyle />
+      <Router />
+    </ThemeProvider>
   )
 }
 

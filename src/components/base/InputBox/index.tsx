@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react'
 import styled from 'styled-components'
 
-interface InputProps {
+type InputPropsType = {
   id: string
   type: string
   register?: any
@@ -15,7 +15,7 @@ const InputBox = ({
   placeholder,
   labelTitle,
   ...props
-}: InputProps): ReactElement => {
+}: InputPropsType): ReactElement => {
   return (
     <Container>
       <Label htmlFor={id}>{labelTitle}</Label>

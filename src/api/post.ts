@@ -1,4 +1,4 @@
-import { authInstance } from './utils'
+import { authInstance } from './instance'
 import { PATH } from '@constants'
 
 //나의 게시글 목록

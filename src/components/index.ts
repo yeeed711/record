@@ -1,4 +1,4 @@
-export { default as Header } from './Header'
-export { default as Footer } from './Footer'
-export { default as Content } from './Content'
-export { default as Layout } from './Layout'
+export * from './base'
+export * from './compound'
+export * from './layout'
+export * from './ui'

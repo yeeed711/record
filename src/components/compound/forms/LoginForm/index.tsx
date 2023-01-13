@@ -1,6 +1,5 @@
-import Button from '@components/base/Button'
+import { Button, InputBox } from '@base'
 import { ICON } from '@constants'
-import InputBox from '@components/base/Input'
 import { loginResquester } from '@api'
 import type { ReactElement } from 'react'
 import { setItem } from '@utils'

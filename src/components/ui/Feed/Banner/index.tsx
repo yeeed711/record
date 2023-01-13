@@ -1,4 +1,4 @@
-import LoginForm from '@components/forms/LoginForm'
+import { LoginForm } from '@components'
 import type { ReactElement } from 'react'
 import styled from 'styled-components'
 import { useState } from 'react'

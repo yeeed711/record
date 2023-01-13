@@ -1,5 +1,6 @@
 export * from './userAuth'
-export * from './utils'
+export * from './instance'
+export * from './post'
 // 1. images
 // 2. user
 // 3. profile

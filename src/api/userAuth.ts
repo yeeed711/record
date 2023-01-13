@@ -1,4 +1,4 @@
-import { defaultInstance } from './utils'
+import { defaultInstance } from './instance'
 import { PATH } from '@constants'
 
 type LoginFormType = {

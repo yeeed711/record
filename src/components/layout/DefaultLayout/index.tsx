@@ -1,13 +1,17 @@
 import type { ReactElement } from 'react'
 import styled from 'styled-components'
 
-interface LayoutProps {
-  header: any
-  content: any
-  footer: any
+type LayoutPropsType = {
+  header: ReactElement
+  content: ReactElement
+  footer: ReactElement
 }
 
-const Layout = ({ header, content, footer }: LayoutProps): ReactElement => {
+const DefaultLayout = ({
+  header,
+  content,
+  footer
+}: LayoutPropsType): ReactElement => {
   return (
     <Container>
       <Header>{header}</Header>
@@ -17,7 +21,7 @@ const Layout = ({ header, content, footer }: LayoutProps): ReactElement => {
   )
 }
 
-export default Layout
+export default DefaultLayout
 
 const Container = styled.div`
   position: relative;

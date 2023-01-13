@@ -2,7 +2,7 @@ import Banner from './Banner'
 import PostCards from './PostCards'
 import type { ReactElement } from 'react'
 
-const Content = (): ReactElement => {
+const Feed = (): ReactElement => {
   return (
     <>
       <Banner />
@@ -13,4 +13,4 @@ const Content = (): ReactElement => {
   )
 }
 
-export default Content
+export default Feed
