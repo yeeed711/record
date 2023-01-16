@@ -36,14 +36,10 @@ const PostCard = ({ post }: PropsType): ReactElement => {
             </a>
           </ContentsWrapper>
           <ProfileContainer>
-            <Author
-              src={post.author.image}
-              children={post.author.username}
-              alt="프로필 이미지"
-            />
+            <Author src={post.author.image} children={post.author.username} />
             <CommontBoxWrapper>
               <LikedWrapper>
-                <ICON.THUMBS_UP />
+                <ICON.HEART />
                 <span>{post.heartCount}</span>
               </LikedWrapper>
               <CommentWrapper>
@@ -108,7 +104,6 @@ const ContentsTitle = styled.strong`
 `
 const ContentsDes = styled.p`
   overflow: hidden;
-  white-space: normal;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -116,6 +111,7 @@ const ContentsDes = styled.p`
   word-break: keep-all;
   font-size: 14px;
   line-height: 1.4;
+  white-space: pre-wrap;
 `
 const ProfileContainer = styled.div`
   display: flex;
@@ -131,9 +127,14 @@ const CommontBoxWrapper = styled.div`
 const LikedWrapper = styled.div`
   display: flex;
   gap: 2px;
-  font-size: 14px;
+  font-size: 13px;
+  color: ${props => props.theme.colors.border_04};
+  svg {
+    fill: white;
+    stroke: #adb6bd;
+  }
   span {
-    margin-top: 2px;
+    margin: 2px 0 0 2px;
   }
 `
 const CommentWrapper = styled(LikedWrapper)``

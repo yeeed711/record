@@ -2,12 +2,10 @@ import type { AuthorType, PostCommentsType, PostDetailType } from '@data'
 import { postCommentsResquester, postDetailResquester } from '@api'
 import { useEffect, useState } from 'react'
 import { Author } from '@base'
+import { CommentForm } from '@components'
 import { ICON } from '@constants'
 import type { ReactElement } from 'react'
 import styled from 'styled-components'
-// 포스트카드 디테일 끝내기
-// 포스트 업로드 개발
-//CommontBoxWrapper 모듈분리
 
 type PostDetailCardType = {
   setIsPostModalOpened: React.Dispatch<React.SetStateAction<boolean>>
@@ -26,14 +24,7 @@ const PostDetailCard = ({
     setIsPostModalOpened(prev => !prev)
   }
 
-  // utils 함수 분리하기
-  const getPostCreateAt = (time: string): string => {
-    const postDate = Date.parse(time)
-    const koDtf = new Intl.DateTimeFormat('ko', { dateStyle: 'long' })
-    return koDtf.format(postDate)
-  }
-
-  const getCommentCreateAt = (time: string): string => {
+  const getCreateAt = (time: string): string => {
     const commentDate = Date.parse(time)
     const koDtf = new Intl.DateTimeFormat('ko', { dateStyle: 'long' })
     const now = Date.now()
@@ -44,9 +35,9 @@ const PostDetailCard = ({
     if (commentMin < 1) {
       return '방금 전'
     } else if (commentMin < 60) {
-      return `${commentMin}분 전`
+      return `약 ${commentMin}분 전`
     } else if (25 > commentHour && 0 < commentHour) {
-      return `${commentHour}시간 전`
+      return `약 ${commentHour}시간 전`
     } else if (7 >= commentDay && commentDay > 0 && commentDay !== 0) {
       return `${commentDay}일 전`
     } else {
@@ -54,6 +45,7 @@ const PostDetailCard = ({
     }
   }
 
+  //최적화 필요
   useEffect(() => {
     const postDetailData = async (): Promise<void> => {
       const { post } = await postDetailResquester(postId)
@@ -83,7 +75,6 @@ const PostDetailCard = ({
               <BlogBtn>
                 <Author
                   src={authorInfo.image}
-                  alt="프로필 이미지"
                   children={postContent.author.username}
                 />
               </BlogBtn>
@@ -92,44 +83,38 @@ const PostDetailCard = ({
               <AuthorWrapper>
                 <Author
                   src={authorInfo.image}
-                  alt="프로필 이미지"
                   children={postContent.author.username}
                 />
-                <CreatedAt>{getPostCreateAt(postContent.createdAt)}</CreatedAt>
+                <CreatedAt>{getCreateAt(postContent.createdAt)}</CreatedAt>
               </AuthorWrapper>
               <Hr />
-              <div>{postContent.content}</div>
+              <Content>{postContent.content}</Content>
+              <LikedWrapper>
+                <LikedIcon>
+                  <ICON.HEART />
+                </LikedIcon>
+                <span>
+                  {postContent.heartCount}명이 이 게시글을 좋아합니다.
+                </span>
+              </LikedWrapper>
               <CommontBoxWrapper>
-                <LikedCommentIcons>
-                  <LikedWrapper>
-                    <ICON.THUMBS_UP />
-                    <span>
-                      {postContent.heartCount}명이 이 게시글을 좋아합니다.
-                    </span>
-                  </LikedWrapper>
-                  <CommentWrapper>
-                    <ICON.CHAT />
-                    <span>{postContent.commentCount}개의 댓글</span>
-                  </CommentWrapper>
-                </LikedCommentIcons>
-                <Hr />
+                <CommentCount>{postContent.commentCount}개의 댓글</CommentCount>
+                <CommentForm postId={postId} />
                 <ul>
                   {postComments &&
                     postComments
                       .map(comment => (
-                        <>
+                        <div key={comment.id}>
                           <AuthorWrapper>
-                            <Author
-                              src={comment.author.image}
-                              alt="프로필 이미지">
+                            <Author src={comment.author.image}>
                               {comment.author.username}
                             </Author>
                             <CreatedAt>
-                              {getCommentCreateAt(comment.createdAt)}
+                              {getCreateAt(comment.createdAt)}
                             </CreatedAt>
                           </AuthorWrapper>
                           <Comment>{comment.content}</Comment>
-                        </>
+                        </div>
                       ))
                       .reverse()}
                 </ul>
@@ -207,6 +192,7 @@ const AuthorWrapper = styled.div`
 const CreatedAt = styled.span`
   font-size: 12px;
   color: ${props => props.theme.colors.text_05};
+  margin-top: 2px;
 `
 const ClosedBtn = styled.button`
   position: absolute;
@@ -222,28 +208,53 @@ const Hr = styled.div`
   height: 1px;
   margin: 20px 0;
 `
-
+const Content = styled.div`
+  margin-bottom: 100px;
+`
 const CommontBoxWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
 
-const LikedCommentIcons = styled.div`
-  display: flex;
-  gap: 10px;
-`
-
 const LikedWrapper = styled.div`
   display: flex;
-  gap: 2px;
-  font-size: 14px;
-  span {
-    margin-top: 2px;
+  align-items: center;
+  gap: 5px;
+  margin: 20px 0;
+`
+const LikedIcon = styled.div`
+  width: fit-content;
+  height: fit-content;
+  background-color: ${props => props.theme.colors.background_05};
+  font-size: 13px;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  svg {
+    fill: #adb6bd;
+    stroke: #adb6bd;
+    margin: 3px 3px 0 3px;
+  }
+  &:hover {
+    svg {
+      fill: black;
+      stroke: black;
+    }
+    outline: 1px solid black;
   }
 `
-const CommentWrapper = styled(LikedWrapper)``
 
 const Comment = styled.li`
   padding: 8px 0 20px 25px;
   font-size: 13px;
+  white-space: pre-wrap;
+  border-bottom: 1px solid ${props => props.theme.colors.border_03};
+  margin-bottom: 20px;
+  line-height: 1.4;
+`
+
+const CommentCount = styled.h3`
+  margin-bottom: 15px;
+  font-size: 14px;
+  font-weight: 700;
 `

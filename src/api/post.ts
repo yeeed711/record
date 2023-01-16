@@ -35,3 +35,24 @@ export const postCommentsResquester = async (postId: string): Promise<any> => {
     return '댓글 리스트 불러오기를 실패하였습니다.'
   }
 }
+
+// 댓글 작성
+export const postCommentWriteResquester = async (
+  postId: string,
+  commentValue: string
+): Promise<any> => {
+  try {
+    const response = await authInstance.post(
+      `${PATH.POST}/${postId}/comments`,
+      {
+        comment: {
+          content: commentValue
+        }
+      }
+    )
+    console.log('댓글 작성 완료')
+    return response.data
+  } catch (error) {
+    return '댓글 작성을 실패하였습니다.'
+  }
+}

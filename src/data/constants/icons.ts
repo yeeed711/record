@@ -8,6 +8,7 @@ import { ReactComponent as CIRCLE_ARROW_LEFT } from '@assets/icons/circle_arrow_
 import { ReactComponent as CIRCLE_OK } from '@assets/icons/circle_ok.svg'
 import { ReactComponent as CLOSE } from '@assets/icons/close.svg'
 import { ReactComponent as GITHUB } from '@assets/icons/github.svg'
+import { ReactComponent as HEART } from '@assets/icons/heart.svg'
 import { ReactComponent as HELP } from '@assets/icons/help.svg'
 import { ReactComponent as INFO } from '@assets/icons/info.svg'
 import { ReactComponent as LINK } from '@assets/icons/link.svg'
@@ -30,6 +31,7 @@ export const ICON = {
   CIRCLE_OK,
   CLOSE,
   GITHUB,
+  HEART,
   HELP,
   INFO,
   LINK,

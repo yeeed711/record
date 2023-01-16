@@ -4,13 +4,12 @@ import styled from 'styled-components'
 type AuthorPropsType = {
   src: string | undefined
   children: string
-  alt: string
 }
 
-const Author = ({ src, children, alt }: AuthorPropsType): ReactElement => {
+const Author = ({ src, children }: AuthorPropsType): ReactElement => {
   return (
     <StyledContainer>
-      <ProfileImg src={src} alt={alt} />
+      <ProfileImg src={src} alt="프로필 이미지" />
       <ProfileName>{children}</ProfileName>
     </StyledContainer>
   )
