@@ -15,14 +15,23 @@ export const userPostResquester = async (accountName: string): Promise<any> => {
 }
 
 //게시글 상세
-export const postDetailResquester = async (
-  accountName: string
-): Promise<any> => {
+export const postDetailResquester = async (postId: string): Promise<any> => {
   try {
-    const response = await authInstance.get(`${PATH.POST}/${accountName}`)
+    const response = await authInstance.get(`${PATH.POST}/${postId}`)
     console.log('게시글 상세보기')
     return response.data
   } catch (error) {
     return '게시글 상세보기를 실패하였습니다.'
+  }
+}
+
+// 댓글 리스트
+export const postCommentsResquester = async (postId: string): Promise<any> => {
+  try {
+    const response = await authInstance.get(`${PATH.POST}/${postId}/comments`)
+    console.log('댓글 리스트 불러오기')
+    return response.data
+  } catch (error) {
+    return '댓글 리스트 불러오기를 실패하였습니다.'
   }
 }

@@ -1,3 +1,4 @@
+import { Author } from '@base'
 import { ICON } from '@constants'
 import PostDetailCard from '../PostDetailCard'
 import type { PostType } from '@models'
@@ -35,11 +36,12 @@ const PostCard = ({ post }: PropsType): ReactElement => {
             </a>
           </ContentsWrapper>
           <ProfileContainer>
-            <ProfileLeft>
-              <ProfileImg src={post.author.image} alt="프로필사진" />
-              <ProfileName>{post.author.username}</ProfileName>
-            </ProfileLeft>
-            <ProfileRight>
+            <Author
+              src={post.author.image}
+              children={post.author.username}
+              alt="프로필 이미지"
+            />
+            <CommontBoxWrapper>
               <LikedWrapper>
                 <ICON.THUMBS_UP />
                 <span>{post.heartCount}</span>
@@ -48,13 +50,17 @@ const PostCard = ({ post }: PropsType): ReactElement => {
                 <ICON.CHAT />
                 <span>{post.commentCount}</span>
               </CommentWrapper>
-            </ProfileRight>
+            </CommontBoxWrapper>
           </ProfileContainer>
         </Wrapper>
       </Card>
 
       {isPostModalOpened && (
-        <PostDetailCard setIsPostModalOpened={setIsPostModalOpened} />
+        <PostDetailCard
+          setIsPostModalOpened={setIsPostModalOpened}
+          postId={post.id}
+          authorInfo={post.author}
+        />
       )}
     </>
   )
@@ -118,22 +124,7 @@ const ProfileContainer = styled.div`
   padding: 15px;
 `
 
-const ProfileLeft = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-`
-
-const ProfileImg = styled.img`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-`
-
-const ProfileName = styled.span`
-  font-size: 12px;
-`
-const ProfileRight = styled.div`
+const CommontBoxWrapper = styled.div`
   display: flex;
   gap: 5px;
 `

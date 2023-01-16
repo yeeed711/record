@@ -5,12 +5,15 @@ const colors = {
   background_02: '#F7F9FB',
   background_03: '#E9F8EF', //green
   background_04: '#E9FBF8', // 카테고리 배경색
+  background_05: '#F2F2F2',
   border_01: '#CED4DA',
   border_02: '#C0E9D1', //green
   primary: '#05C471',
   text_01: '#868E96',
   text_02: '#9FCAB6', //green
-  text_03: '#08B594' //deepgreen
+  text_03: '#08B594', //deepgreen
+  text_04: '#343A40', // blog text
+  text_05: '#ADB5BD'
 }
 
 export type ColorsTypes = typeof colors
