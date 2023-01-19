@@ -1,24 +1,28 @@
 import { LoginForm } from '@components'
+import Modal from '@base/Modal'
 import type { ReactElement } from 'react'
 import styled from 'styled-components'
 import { useState } from 'react'
 
 const Banner = (): ReactElement => {
-  const [isSignUpModalOpened, setIsSignUpModalOpened] = useState(false)
-
-  const handleSignUpModalOpen = (): void => {
-    setIsSignUpModalOpened(prev => !prev)
-  }
+  const [loginModal, setLoginModal] = useState(false)
 
   return (
     <>
       <StyledContainer>
         <div>생각하고, 기록하고, 성장하세요.</div>
-        <BannerBtn onClick={handleSignUpModalOpen}>시작하기</BannerBtn>
+        <BannerBtn
+          onClick={() => {
+            setLoginModal(true)
+          }}>
+          시작하기
+        </BannerBtn>
       </StyledContainer>
-      {isSignUpModalOpened && (
-        <LoginForm setIsSignUpModalOpened={setIsSignUpModalOpened} />
-      )}
+      <Modal
+        showModal={loginModal}
+        setShowModal={setLoginModal}
+        children={<LoginForm />}
+      />
     </>
   )
 }

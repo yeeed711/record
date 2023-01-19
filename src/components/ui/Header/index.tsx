@@ -1,3 +1,4 @@
+import { LoginForm, Modal } from '@components'
 import styled, { css } from 'styled-components'
 import { ICON } from '@constants'
 import { mobile } from '@styles'
@@ -5,21 +6,35 @@ import MobileBtn from './MobileBtn'
 import NavBar from './NavBar'
 import type { ReactElement } from 'react'
 import SearchBar from './SearchBar'
-// import { useState } from 'react'
+import { useState } from 'react'
 
 const Header = (): ReactElement => {
+  const [loginModalOpen, setLoginModalOpen] = useState(false)
+
   return (
-    <HeaderWrapper>
-      <HeaderLeft className="mobile-left">
-        <ICON.LOGO />
-        <NavBar />
-      </HeaderLeft>
-      <HeaderRight className="mobile-right">
-        <SearchBar />
-        <SignIn>Sign in</SignIn>
-        <MobileBtn />
-      </HeaderRight>
-    </HeaderWrapper>
+    <>
+      <HeaderWrapper>
+        <HeaderLeft className="mobile-left">
+          <ICON.LOGO />
+          <NavBar />
+        </HeaderLeft>
+        <HeaderRight className="mobile-right">
+          <SearchBar />
+          <SignIn
+            onClick={() => {
+              setLoginModalOpen(true)
+            }}>
+            Sign in
+          </SignIn>
+          <Modal
+            showModal={loginModalOpen}
+            setShowModal={setLoginModalOpen}
+            children={<LoginForm />}
+          />
+          <MobileBtn />
+        </HeaderRight>
+      </HeaderWrapper>
+    </>
   )
 }
 

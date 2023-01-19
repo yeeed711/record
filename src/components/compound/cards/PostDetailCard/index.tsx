@@ -12,14 +12,12 @@ import type { ReactElement } from 'react'
 import styled from 'styled-components'
 
 type PostDetailCardPropsType = {
-  setIsPostModalOpened: React.Dispatch<React.SetStateAction<boolean>>
   post: PostType
   setHeartCount: React.Dispatch<React.SetStateAction<number>>
   postHeartCount: number
 }
 
 const PostDetailCard = ({
-  setIsPostModalOpened,
   post,
   setHeartCount,
   postHeartCount
@@ -27,10 +25,6 @@ const PostDetailCard = ({
   const { author, commentCount, content, createdAt, hearted, id, image } = post
   const [postComments, setPostComments] = useState<PostCommentsType>()
   const [isHearted, setIsHearted] = useState(hearted)
-
-  const handleClosedModal = (): void => {
-    setIsPostModalOpened(prev => !prev)
-  }
 
   const getCreateAt = (time: string): string => {
     const commentDate = Date.parse(time)
@@ -77,78 +71,60 @@ const PostDetailCard = ({
   }, [])
 
   return (
-    <StyledContainer>
-      <Wrapper>
-        <ContentNav>
-          <BackBtn>
-            <ICON.CHEVRON_LEFT />
-            <span>뒤로가기</span>
-          </BackBtn>
-          <BlogBtn>
-            <Author src={author.image} children={author.username} />
-          </BlogBtn>
-        </ContentNav>
-        <ContentWrapper>
-          <AuthorWrapper>
-            <Author src={author.image} children={author.username} />
-            <CreatedAt>{getCreateAt(createdAt)}</CreatedAt>
-          </AuthorWrapper>
-          <Hr />
-          {image && <ThumbnailImg src={image} alt="썸네일 이미지" />}
-          <Content>{content}</Content>
-          <LikedWrapper>
-            <LikedIcon
-              isHearted={isHearted}
-              onClick={isHearted ? handleUnHeartClick : handleHeartClick}>
-              <ICON.HEART />
-            </LikedIcon>
-            <span>{postHeartCount}명이 이 게시글을 좋아합니다.</span>
-          </LikedWrapper>
-          <CommontBoxWrapper>
-            <CommentCount>{commentCount}개의 댓글</CommentCount>
-            <CommentForm postId={id} />
-            <ul>
-              {postComments &&
-                postComments
-                  .map(comment => (
-                    <div key={comment.id}>
-                      <AuthorWrapper>
-                        <Author src={comment.author.image}>
-                          {comment.author.username}
-                        </Author>
-                        <CreatedAt>{getCreateAt(comment.createdAt)}</CreatedAt>
-                      </AuthorWrapper>
-                      <Comment>{comment.content}</Comment>
-                    </div>
-                  ))
-                  .reverse()}
-            </ul>
-          </CommontBoxWrapper>
-        </ContentWrapper>
-      </Wrapper>
-      <ClosedBtn onClick={handleClosedModal}>
-        <ICON.CLOSE />
-      </ClosedBtn>
-    </StyledContainer>
+    <Wrapper>
+      <ContentNav>
+        <BackBtn>
+          <ICON.CHEVRON_LEFT />
+          <span>뒤로가기</span>
+        </BackBtn>
+        <BlogBtn>
+          <Author src={author.image} children={author.username} />
+        </BlogBtn>
+      </ContentNav>
+      <ContentWrapper>
+        <AuthorWrapper>
+          <Author src={author.image} children={author.username} />
+          <CreatedAt>{getCreateAt(createdAt)}</CreatedAt>
+        </AuthorWrapper>
+        <Hr />
+        {image && <ThumbnailImg src={image} alt="썸네일 이미지" />}
+        <Content>{content}</Content>
+        <LikedWrapper>
+          <LikedIcon
+            isHearted={isHearted}
+            onClick={isHearted ? handleUnHeartClick : handleHeartClick}>
+            <ICON.HEART />
+          </LikedIcon>
+          <span>{postHeartCount}명이 이 게시글을 좋아합니다.</span>
+        </LikedWrapper>
+        <CommontBoxWrapper>
+          <CommentCount>{commentCount}개의 댓글</CommentCount>
+          <CommentForm postId={id} />
+          <ul>
+            {postComments &&
+              postComments
+                .map(comment => (
+                  <div key={comment.id}>
+                    <AuthorWrapper>
+                      <Author src={comment.author.image}>
+                        {comment.author.username}
+                      </Author>
+                      <CreatedAt>{getCreateAt(comment.createdAt)}</CreatedAt>
+                    </AuthorWrapper>
+                    <Comment>{comment.content}</Comment>
+                  </div>
+                ))
+                .reverse()}
+          </ul>
+        </CommontBoxWrapper>
+      </ContentWrapper>
+    </Wrapper>
   )
 }
 
 export default PostDetailCard
 
-const StyledContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 20;
-`
 const Wrapper = styled.div`
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -157,7 +133,6 @@ const Wrapper = styled.div`
   padding: 10px;
   border-radius: 8px;
   max-width: 780px;
-  width: 100%;
   margin: 0 auto;
 `
 
@@ -196,15 +171,6 @@ const CreatedAt = styled.span`
   font-size: 12px;
   color: ${props => props.theme.colors.text_05};
   margin-top: 2px;
-`
-const ClosedBtn = styled.button`
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  svg {
-    stroke: white;
-  }
-  background-color: transparent;
 `
 const Hr = styled.div`
   border-top: 1px solid ${props => props.theme.colors.border_01};
