@@ -10,6 +10,7 @@ type PropsType = { post: PostType }
 
 const PostCard = ({ post }: PropsType): ReactElement => {
   const [isPostModalOpened, setIsPostModalOpened] = useState(false)
+  const [heartCount, setHeartCount] = useState(post.heartCount)
 
   const handlePostModalOpen = (): void => {
     setIsPostModalOpened(prev => !prev)
@@ -40,7 +41,7 @@ const PostCard = ({ post }: PropsType): ReactElement => {
             <CommontBoxWrapper>
               <LikedWrapper>
                 <ICON.HEART />
-                <span>{post.heartCount}</span>
+                <span>{heartCount}</span>
               </LikedWrapper>
               <CommentWrapper>
                 <ICON.CHAT />
@@ -54,8 +55,9 @@ const PostCard = ({ post }: PropsType): ReactElement => {
       {isPostModalOpened && (
         <PostDetailCard
           setIsPostModalOpened={setIsPostModalOpened}
-          postId={post.id}
-          authorInfo={post.author}
+          post={post}
+          setHeartCount={setHeartCount}
+          postHeartCount={heartCount}
         />
       )}
     </>

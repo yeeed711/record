@@ -5,6 +5,7 @@ export type PostType = {
   content: string
   createdAt: string
   heartCount: number
+  hearted: boolean
   id: string
   image: string
   updatedAt: string

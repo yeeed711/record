@@ -1,5 +1,9 @@
-import type { AuthorType, PostCommentsType, PostDetailType } from '@data'
-import { postCommentsResquester, postDetailResquester } from '@api'
+import {
+  postCommentsResquester,
+  postLikedResquester,
+  postUnLikedResquester
+} from '@api'
+import type { PostCommentsType, PostType } from '@data'
 import { useEffect, useState } from 'react'
 import { Author } from '@base'
 import { CommentForm } from '@components'
@@ -7,19 +11,23 @@ import { ICON } from '@constants'
 import type { ReactElement } from 'react'
 import styled from 'styled-components'
 
-type PostDetailCardType = {
+type PostDetailCardPropsType = {
   setIsPostModalOpened: React.Dispatch<React.SetStateAction<boolean>>
-  postId: string
-  authorInfo: AuthorType
+  post: PostType
+  setHeartCount: React.Dispatch<React.SetStateAction<number>>
+  postHeartCount: number
 }
 
 const PostDetailCard = ({
   setIsPostModalOpened,
-  postId,
-  authorInfo
-}: PostDetailCardType): ReactElement => {
-  const [postContent, setPostContent] = useState<PostDetailType>()
+  post,
+  setHeartCount,
+  postHeartCount
+}: PostDetailCardPropsType): ReactElement => {
+  const { author, commentCount, content, createdAt, hearted, id, image } = post
   const [postComments, setPostComments] = useState<PostCommentsType>()
+  const [isHearted, setIsHearted] = useState(hearted)
+
   const handleClosedModal = (): void => {
     setIsPostModalOpened(prev => !prev)
   }
@@ -45,83 +53,78 @@ const PostDetailCard = ({
     }
   }
 
-  //최적화 필요
-  useEffect(() => {
-    const postDetailData = async (): Promise<void> => {
-      const { post } = await postDetailResquester(postId)
-      setPostContent(post)
-    }
+  const handleHeartClick = async (): Promise<void> => {
+    const { post } = await postLikedResquester(id)
+    setIsHearted(true)
+    setHeartCount(post.heartCount)
+  }
 
+  const handleUnHeartClick = async (): Promise<void> => {
+    const { post } = await postUnLikedResquester(id)
+    setIsHearted(false)
+    setHeartCount(post.heartCount)
+  }
+
+  //최적화 필요, 커스텀 훅으로 만들어 빼기
+  useEffect(() => {
     const postCommentData = async (): Promise<void> => {
-      const { comments } = await postCommentsResquester(postId)
+      const { comments } = await postCommentsResquester(id)
       console.log(comments)
       setPostComments(comments)
     }
 
-    postDetailData()
     postCommentData()
   }, [])
 
   return (
     <StyledContainer>
       <Wrapper>
-        {postContent && (
-          <>
-            <ContentNav>
-              <BackBtn>
-                <ICON.CHEVRON_LEFT />
-                <span>뒤로가기</span>
-              </BackBtn>
-              <BlogBtn>
-                <Author
-                  src={authorInfo.image}
-                  children={postContent.author.username}
-                />
-              </BlogBtn>
-            </ContentNav>
-            <ContentWrapper>
-              <AuthorWrapper>
-                <Author
-                  src={authorInfo.image}
-                  children={postContent.author.username}
-                />
-                <CreatedAt>{getCreateAt(postContent.createdAt)}</CreatedAt>
-              </AuthorWrapper>
-              <Hr />
-              <Content>{postContent.content}</Content>
-              <LikedWrapper>
-                <LikedIcon>
-                  <ICON.HEART />
-                </LikedIcon>
-                <span>
-                  {postContent.heartCount}명이 이 게시글을 좋아합니다.
-                </span>
-              </LikedWrapper>
-              <CommontBoxWrapper>
-                <CommentCount>{postContent.commentCount}개의 댓글</CommentCount>
-                <CommentForm postId={postId} />
-                <ul>
-                  {postComments &&
-                    postComments
-                      .map(comment => (
-                        <div key={comment.id}>
-                          <AuthorWrapper>
-                            <Author src={comment.author.image}>
-                              {comment.author.username}
-                            </Author>
-                            <CreatedAt>
-                              {getCreateAt(comment.createdAt)}
-                            </CreatedAt>
-                          </AuthorWrapper>
-                          <Comment>{comment.content}</Comment>
-                        </div>
-                      ))
-                      .reverse()}
-                </ul>
-              </CommontBoxWrapper>
-            </ContentWrapper>
-          </>
-        )}
+        <ContentNav>
+          <BackBtn>
+            <ICON.CHEVRON_LEFT />
+            <span>뒤로가기</span>
+          </BackBtn>
+          <BlogBtn>
+            <Author src={author.image} children={author.username} />
+          </BlogBtn>
+        </ContentNav>
+        <ContentWrapper>
+          <AuthorWrapper>
+            <Author src={author.image} children={author.username} />
+            <CreatedAt>{getCreateAt(createdAt)}</CreatedAt>
+          </AuthorWrapper>
+          <Hr />
+          {image && <ThumbnailImg src={image} alt="썸네일 이미지" />}
+          <Content>{content}</Content>
+          <LikedWrapper>
+            <LikedIcon
+              isHearted={isHearted}
+              onClick={isHearted ? handleUnHeartClick : handleHeartClick}>
+              <ICON.HEART />
+            </LikedIcon>
+            <span>{postHeartCount}명이 이 게시글을 좋아합니다.</span>
+          </LikedWrapper>
+          <CommontBoxWrapper>
+            <CommentCount>{commentCount}개의 댓글</CommentCount>
+            <CommentForm postId={id} />
+            <ul>
+              {postComments &&
+                postComments
+                  .map(comment => (
+                    <div key={comment.id}>
+                      <AuthorWrapper>
+                        <Author src={comment.author.image}>
+                          {comment.author.username}
+                        </Author>
+                        <CreatedAt>{getCreateAt(comment.createdAt)}</CreatedAt>
+                      </AuthorWrapper>
+                      <Comment>{comment.content}</Comment>
+                    </div>
+                  ))
+                  .reverse()}
+            </ul>
+          </CommontBoxWrapper>
+        </ContentWrapper>
       </Wrapper>
       <ClosedBtn onClick={handleClosedModal}>
         <ICON.CLOSE />
@@ -208,6 +211,11 @@ const Hr = styled.div`
   height: 1px;
   margin: 20px 0;
 `
+const ThumbnailImg = styled.img`
+  width: 300px;
+  margin-bottom: 20px;
+`
+
 const Content = styled.div`
   margin-bottom: 100px;
 `
@@ -222,7 +230,7 @@ const LikedWrapper = styled.div`
   gap: 5px;
   margin: 20px 0;
 `
-const LikedIcon = styled.div`
+const LikedIcon = styled.div<{ isHearted: boolean }>`
   width: fit-content;
   height: fit-content;
   background-color: ${props => props.theme.colors.background_05};
@@ -231,8 +239,8 @@ const LikedIcon = styled.div`
   border-radius: 50%;
   cursor: pointer;
   svg {
-    fill: #adb6bd;
-    stroke: #adb6bd;
+    fill: ${props => (props.isHearted ? props.theme.colors.red : '#adb6bd')};
+    stroke: ${props => (props.isHearted ? props.theme.colors.red : '#adb6bd')};
     margin: 3px 3px 0 3px;
   }
   &:hover {

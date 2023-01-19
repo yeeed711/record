@@ -56,3 +56,25 @@ export const postCommentWriteResquester = async (
     return '댓글 작성을 실패하였습니다.'
   }
 }
+
+// 포스트 좋아요
+export const postLikedResquester = async (postId: string): Promise<any> => {
+  try {
+    const response = await authInstance.post(`${PATH.POST}/${postId}/heart`)
+    console.log('좋아요 요청 성공')
+    return response.data
+  } catch (error) {
+    return '좋아요 저장을 실패하였습니다.'
+  }
+}
+
+// 포스트 좋아요 취소
+export const postUnLikedResquester = async (postId: string): Promise<any> => {
+  try {
+    const response = await authInstance.delete(`${PATH.POST}/${postId}/unheart`)
+    console.log('좋아요 취소 요청 성공')
+    return response.data
+  } catch (error) {
+    return '좋아요 취소를 실패하였습니다.'
+  }
+}

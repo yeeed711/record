@@ -12,6 +12,7 @@ const colors = {
   border_03: '#F2F3F5',
   border_04: '#ADB6BD',
   primary: '#05C471',
+  red: '#ee4957',
   text_01: '#868E96',
   text_02: '#9FCAB6', //green
   text_03: '#08B594', //deepgreen
