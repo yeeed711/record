@@ -1,3 +1,4 @@
+import { mobile } from '@styles'
 import type { ReactElement } from 'react'
 import styled from 'styled-components'
 
@@ -45,4 +46,7 @@ const Input = styled.input`
   border-radius: 8px;
   padding: 13px 20px;
   border: 1px solid ${props => props.theme.colors.border_01};
+  ${mobile} {
+    font-size: 16px;
+  }
 `
