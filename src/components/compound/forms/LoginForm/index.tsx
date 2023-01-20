@@ -1,5 +1,6 @@
 import { Button, InputBox } from '@base'
 import { ICON } from '@constants'
+import { Link } from 'react-router-dom'
 import { loginResquester } from '@api'
 import type { ReactElement } from 'react'
 import { setItem } from '@utils'
@@ -29,10 +30,7 @@ const LoginForm = (): ReactElement => {
 
   return (
     <>
-      <Form
-        onSubmit={handleSubmit(onSubmit)}
-        autoComplete="off"
-        className="modal">
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <FormTitle className="ir">로그인 화면 입니다.</FormTitle>
         <Description>
           <ICON.LOGO />
@@ -54,8 +52,8 @@ const LoginForm = (): ReactElement => {
             },
             required: true
           })}
+          errorMsg={errors.email?.message}
         />
-        <ErrorMsg>{errors.email?.message}</ErrorMsg>
         <InputBox
           labelTitle="비밀번호"
           id="password"
@@ -68,9 +66,10 @@ const LoginForm = (): ReactElement => {
             },
             required: true
           })}
+          errorMsg={errors.password?.message}
         />
-        <ErrorMsg>{errors.password?.message}</ErrorMsg>
         <Button disabled={!isValid}>로그인</Button>
+        <Link to="/signin">회원가입</Link>
         <InfoTxt>
           가입시 개인정보 처리방침과 이용약관을 확인 및 동의한 것으로
           간주합니다.
@@ -105,21 +104,6 @@ const Description = styled.div`
   }
 `
 const FormTitle = styled.h2``
-const ClosedBtn = styled.button`
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  svg {
-    stroke: white;
-  }
-  background-color: transparent;
-`
-
-const ErrorMsg = styled.span`
-  font-size: 12px;
-  color: ${props => props.theme.colors.red};
-  padding-left: 5px;
-`
 
 const InfoTxt = styled.span`
   display: block;

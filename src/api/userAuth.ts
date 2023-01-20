@@ -6,6 +6,7 @@ type LoginFormType = {
   password: string
 }
 
+// 로그인
 export const loginResquester = async (
   userInfo: LoginFormType
 ): Promise<any> => {
@@ -20,5 +21,22 @@ export const loginResquester = async (
     return response.data
   } catch (error) {
     return '로그인에 실패하였습니다.'
+  }
+}
+
+// 유저 이메일 검증
+export const emailValidResquester = async (
+  userEmail: string
+): Promise<string> => {
+  try {
+    const response = await defaultInstance.post(PATH.EMAILVALID, {
+      user: {
+        email: userEmail
+      }
+    })
+    console.log(response.data)
+    return response.data.message
+  } catch (error) {
+    return '이메일 검증을 실패했습니다.'
   }
 }
