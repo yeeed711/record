@@ -10,6 +10,7 @@ import { ReactComponent as CLOSE } from '@assets/icons/close.svg'
 import { ReactComponent as GITHUB } from '@assets/icons/github.svg'
 import { ReactComponent as HEART } from '@assets/icons/heart.svg'
 import { ReactComponent as HELP } from '@assets/icons/help.svg'
+import { ReactComponent as IMAGE } from '@assets/icons/image.svg'
 import { ReactComponent as INFO } from '@assets/icons/info.svg'
 import { ReactComponent as LINK } from '@assets/icons/link.svg'
 import { ReactComponent as LOGO } from '@assets/icons/logo_record.svg'
@@ -33,6 +34,7 @@ export const ICON = {
   GITHUB,
   HEART,
   HELP,
+  IMAGE,
   INFO,
   LINK,
   LOGO,
