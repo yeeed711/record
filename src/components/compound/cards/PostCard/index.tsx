@@ -1,4 +1,4 @@
-import { Author } from '@base'
+import { Author, Modal } from '@base'
 import { ICON } from '@constants'
 import PostDetailCard from '../PostDetailCard'
 import type { PostType } from '@models'
@@ -12,13 +12,12 @@ const PostCard = ({ post }: PropsType): ReactElement => {
   const [isPostModalOpened, setIsPostModalOpened] = useState(false)
   const [heartCount, setHeartCount] = useState(post.heartCount)
 
-  const handlePostModalOpen = (): void => {
-    setIsPostModalOpened(prev => !prev)
-  }
-
   return (
     <>
-      <Card onClick={handlePostModalOpen}>
+      <Card
+        onClick={() => {
+          setIsPostModalOpened(true)
+        }}>
         <Wrapper>
           {post.image === '' ? null : (
             <ThumbnailWrapper>
@@ -51,15 +50,17 @@ const PostCard = ({ post }: PropsType): ReactElement => {
           </ProfileContainer>
         </Wrapper>
       </Card>
-
-      {isPostModalOpened && (
-        <PostDetailCard
-          setIsPostModalOpened={setIsPostModalOpened}
-          post={post}
-          setHeartCount={setHeartCount}
-          postHeartCount={heartCount}
-        />
-      )}
+      <Modal
+        showModal={isPostModalOpened}
+        setShowModal={setIsPostModalOpened}
+        children={
+          <PostDetailCard
+            post={post}
+            setHeartCount={setHeartCount}
+            postHeartCount={heartCount}
+          />
+        }
+      />
     </>
   )
 }
